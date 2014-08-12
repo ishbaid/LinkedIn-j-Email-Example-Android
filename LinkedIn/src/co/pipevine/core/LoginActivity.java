@@ -50,8 +50,11 @@ public class LoginActivity extends Activity {
 	static final String PREF_TOKENSECRET = "tokenSecret";
 	static final String PREF_REQTOKENSECRET = "requestTokenSecret";
 
+	//store current user
 	Person user;
+	//stores current user's information
 	Connections connections;
+	//can be used to display information pulled from linkedin
 	TextView tv = null;
 
 	@Override
@@ -151,6 +154,8 @@ public class LoginActivity extends Activity {
 			protected Object doInBackground(Void... params) {
 				try {
 
+					//this is where you specify what information you will need from user
+					//notice: ProfileField.EMAIL_ADDRESS
 					final Person p = client.getProfileForCurrentUser(EnumSet.of(
 							ProfileField.ID, ProfileField.FIRST_NAME,
 							ProfileField.LAST_NAME, ProfileField.HEADLINE, ProfileField.EMAIL_ADDRESS, ProfileField.PICTURE_URL, ProfileField.LOCATION_NAME));
@@ -189,6 +194,8 @@ public class LoginActivity extends Activity {
 					finish();
 				} else if (result instanceof Person) {
 					final Person p = (Person) result;
+					
+					//here is where we can different information about the user or his connections
 					tv.setText(p.getLastName() + ", " + p.getFirstName() + "\n" + p.getEmailAddress() + "\n" + p.getHeadline() + "\n" + p.getPictureUrl() + "\n" + p.getLocation().getName());
 				}
 			}
